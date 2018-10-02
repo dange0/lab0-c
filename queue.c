@@ -142,8 +142,31 @@ bool q_insert_tail(queue_t *q, char *s)
  */
 bool q_remove_head(queue_t *q, char *sp, size_t bufsize)
 {
-    /* You need to fix up this code. */
+    /* Empty queue handling */
+    if (q == NULL)
+        return false;
+
+    /*Return false if queue is NULL or empty.*/
+    if (q->head == NULL)
+        return false;
+
+    /* move the head */
+    list_ele_t *del;
+    del = q->head;
     q->head = q->head->next;
+
+    /*  If sp is non-NULL and an element is removed, copy the removed string to
+     *sp
+     (up to a maximum of bufsize-1 characters, plus a null terminator.)*/
+    if (sp != NULL) {
+        memset(sp, '\0', bufsize);
+        strncpy(sp, del->value, bufsize - 1);
+    }
+
+
+    /* free */
+    free(del->value);
+    free(del);
     return true;
 }
 
