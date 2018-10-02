@@ -28,15 +28,27 @@ queue_t *q_new()
     if (q == 0)
         return NULL;
     q->head = NULL;
-    q->tail = NULL;
-    q->size = 0;
     return q;
 }
 
 /* Free all storage used by queue */
 void q_free(queue_t *q)
 {
-    /* How about freeing the list elements and the strings? */
+    /* Empty queue handling */
+    if (q == NULL)
+        return;
+
+    list_ele_t *ptr, *del;
+    ptr = q->head;
+
+    /* Free list & value */
+    while (ptr != NULL) {
+        del = ptr;
+        ptr = ptr->next;
+        free(del->value);
+        free(del);
+    }
+
     /* Free queue structure */
     free(q);
 }
