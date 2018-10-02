@@ -19,14 +19,17 @@
 #include "queue.h"
 
 /*
-  Create empty queue.
-  Return NULL if could not allocate space.
-*/
+   Create empty queue.
+   Return NULL if could not allocate space.
+ */
 queue_t *q_new()
 {
     queue_t *q = malloc(sizeof(queue_t));
-    /* What if malloc returned NULL? */
+    if (q == 0)
+        return NULL;
     q->head = NULL;
+    q->tail = NULL;
+    q->size = 0;
     return q;
 }
 
@@ -39,11 +42,11 @@ void q_free(queue_t *q)
 }
 
 /*
-  Attempt to insert element at head of queue.
-  Return true if successful.
-  Return false if q is NULL or could not allocate space.
-  Argument s points to the string to be stored.
-  The function must explicitly allocate space and copy the string into it.
+   Attempt to insert element at head of queue.
+   Return true if successful.
+   Return false if q is NULL or could not allocate space.
+   Argument s points to the string to be stored.
+   The function must explicitly allocate space and copy the string into it.
  */
 bool q_insert_head(queue_t *q, char *s)
 {
@@ -59,11 +62,11 @@ bool q_insert_head(queue_t *q, char *s)
 
 
 /*
-  Attempt to insert element at tail of queue.
-  Return true if successful.
-  Return false if q is NULL or could not allocate space.
-  Argument s points to the string to be stored.
-  The function must explicitly allocate space and copy the string into it.
+   Attempt to insert element at tail of queue.
+   Return true if successful.
+   Return false if q is NULL or could not allocate space.
+   Argument s points to the string to be stored.
+   The function must explicitly allocate space and copy the string into it.
  */
 bool q_insert_tail(queue_t *q, char *s)
 {
@@ -73,13 +76,13 @@ bool q_insert_tail(queue_t *q, char *s)
 }
 
 /*
-  Attempt to remove element from head of queue.
-  Return true if successful.
-  Return false if queue is NULL or empty.
-  If sp is non-NULL and an element is removed, copy the removed string to *sp
-  (up to a maximum of bufsize-1 characters, plus a null terminator.)
-  The space used by the list element and the string should be freed.
-*/
+   Attempt to remove element from head of queue.
+   Return true if successful.
+   Return false if queue is NULL or empty.
+   If sp is non-NULL and an element is removed, copy the removed string to *sp
+   (up to a maximum of bufsize-1 characters, plus a null terminator.)
+   The space used by the list element and the string should be freed.
+ */
 bool q_remove_head(queue_t *q, char *sp, size_t bufsize)
 {
     /* You need to fix up this code. */
@@ -88,8 +91,8 @@ bool q_remove_head(queue_t *q, char *sp, size_t bufsize)
 }
 
 /*
-  Return number of elements in queue.
-  Return 0 if q is NULL or empty
+   Return number of elements in queue.
+   Return 0 if q is NULL or empty
  */
 int q_size(queue_t *q)
 {
@@ -99,11 +102,11 @@ int q_size(queue_t *q)
 }
 
 /*
-  Reverse elements in queue
-  No effect if q is NULL or empty
-  This function should not allocate or free any list elements
-  (e.g., by calling q_insert_head, q_insert_tail, or q_remove_head).
-  It should rearrange the existing ones.
+   Reverse elements in queue
+   No effect if q is NULL or empty
+   This function should not allocate or free any list elements
+   (e.g., by calling q_insert_head, q_insert_tail, or q_remove_head).
+   It should rearrange the existing ones.
  */
 void q_reverse(queue_t *q)
 {
