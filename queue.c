@@ -198,5 +198,33 @@ int q_size(queue_t *q)
  */
 void q_reverse(queue_t *q)
 {
-    /* You need to write the code for this function */
+    /*No effect if q is NULL or empty*/
+    if (q == NULL)
+        return;
+    if (q->size <= 1)
+        return;
+
+
+    list_ele_t *ptr_pre, *ptr_now, *ptr_next;
+
+    /* move to the first windows */
+    ptr_pre = q->head;
+    ptr_now = ptr_pre->next;
+    ptr_next = ptr_now->next;
+
+    /* reverse the pointer next and shift the windows */
+    while (ptr_next != NULL) {
+        ptr_now->next = ptr_pre;
+        ptr_pre = ptr_now;
+        ptr_now = ptr_next;
+        ptr_next = ptr_next->next;
+    }
+
+    /* The last */
+    ptr_now->next = ptr_pre;
+
+    /* modify the head and tail */
+    q->head->next = NULL;
+    q->tail = q->head;
+    q->head = ptr_now;
 }
