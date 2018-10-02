@@ -28,6 +28,8 @@ queue_t *q_new()
     if (q == 0)
         return NULL;
     q->head = NULL;
+    q->tail = NULL;
+
     return q;
 }
 
@@ -84,6 +86,10 @@ bool q_insert_head(queue_t *q, char *s)
     newh->next = q->head;
     q->head = newh;
 
+    /* The first */
+    if (newh->next == NULL) {
+        q->tail = newh;
+    }
     return true;
 }
 /*
@@ -95,9 +101,35 @@ bool q_insert_head(queue_t *q, char *s)
  */
 bool q_insert_tail(queue_t *q, char *s)
 {
-    /* You need to write the complete code for this function */
-    /* Remember: It should operate in O(1) time */
-    return false;
+    /* Empty queue handling */
+    if (q == NULL)
+        return false;
+
+    /* malloc and initial */
+    list_ele_t *newt;
+    newt = malloc(sizeof(list_ele_t));
+    if (newt == NULL)
+        return false;
+    newt->next = NULL;
+
+    /* strings copy with malloc */
+    newt->value = malloc(strlen(s) + 1);
+    if (newt->value == NULL) {
+        free(newt);
+        return false;
+    }
+    strcpy(newt->value, s);
+
+    /* update the tail */
+    if (q->tail != NULL)
+        q->tail->next = newt;
+    q->tail = newt;
+
+    /* The first */
+    if (q->head == NULL)
+        q->head = newt;
+
+    return true;
 }
 
 /*
