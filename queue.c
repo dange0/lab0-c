@@ -29,7 +29,7 @@ queue_t *q_new()
         return NULL;
     q->head = NULL;
     q->tail = NULL;
-
+    q->size = 0;
     return q;
 }
 
@@ -90,6 +90,9 @@ bool q_insert_head(queue_t *q, char *s)
     if (newh->next == NULL) {
         q->tail = newh;
     }
+
+    /* counter for q_size */
+    q->size++;
     return true;
 }
 /*
@@ -128,7 +131,8 @@ bool q_insert_tail(queue_t *q, char *s)
     /* The first */
     if (q->head == NULL)
         q->head = newt;
-
+    /* counter for q_size */
+    q->size++;
     return true;
 }
 
@@ -167,6 +171,9 @@ bool q_remove_head(queue_t *q, char *sp, size_t bufsize)
     /* free */
     free(del->value);
     free(del);
+
+    /* counter for q_size */
+    q->size--;
     return true;
 }
 
@@ -176,11 +183,12 @@ bool q_remove_head(queue_t *q, char *sp, size_t bufsize)
  */
 int q_size(queue_t *q)
 {
-    /* You need to write the code for this function */
-    /* Remember: It should operate in O(1) time */
-    return 0;
-}
+    /* Empty queue handling */
+    if (q == NULL)
+        return 0;
 
+    return q->size;
+}
 /*
    Reverse elements in queue
    No effect if q is NULL or empty
